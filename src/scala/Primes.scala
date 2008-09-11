@@ -1,8 +1,7 @@
 import Math.{ceil,sqrt}
 
-object PrimeFinder {
-  val maxVal = 100000
-  private val primes : Array[Boolean] = {
+object PrimeArray {
+  def getPrimes(maxVal : Int) = {
     val startTime = System.nanoTime
     println("primes init")
     val primes : Array[Boolean] = Array.make(maxVal, true)
@@ -16,6 +15,11 @@ object PrimeFinder {
     println("took " + ((System.nanoTime - startTime) / 1000000000L.toDouble) + " seconds.")
     primes
   }
+}
+
+object PrimeFinder {
+  private val maxVal = 100000000
+  private val primes = PrimeArray.getPrimes(maxVal)
 
   def isPrime(num : Int) : Boolean = {
     if (num > maxVal) throw new IllegalArgumentException
@@ -26,13 +30,11 @@ object PrimeFinder {
 object Main {
   def main(args : Array[String]) {
     println("main")
-    0.until(10).foreach(a => {
-      println(0.until(10).map(b => {
-        0.until(10).map(c => {
-          PrimeFinder.isPrime(a*100 + b*10 + c + 1).toString()(0).toUpperCase
-        }).foldLeft("")(_+_)
-      }).foldLeft("")(_+ " " +_))
+    val f = (x : Int) => { x*x - x + 41 }
+    0.until(10000,1000).foreach((x : Int) => {
+      val fx = f(x)
+      val primeness = PrimeFinder.isPrime(fx)
+      println("f(" + x + ") = " + fx + " is prime: " + primeness)
     })
-    //f(x) = x^2 - x + 41
   }
 }
